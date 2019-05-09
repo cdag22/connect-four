@@ -2,11 +2,10 @@ import React from 'react';
 import _ from 'underscore';
 import Square from './Square.jsx';
 
-const Column = ({ x }) => {
-
+const Column = ({ x, colName, updateColumn }) => {
   return (
     <div className="column">
-      {_.map(_.range(1, 7), (n, i) => <Square key={i} x={x} y={n} />)}
+      {_.map(_.range(6), n => <Square key={n} x={x} y={n} colName={colName} updateColumn={updateColumn} />)}
     </div>
   );
 }

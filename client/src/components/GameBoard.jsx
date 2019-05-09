@@ -2,12 +2,12 @@ import React from 'react';
 import _ from 'underscore';
 import Column from './Column.jsx';
 
-const GameBoard = (props) => {
+const GameBoard = ({ updateColumn }) => {
 
   return (
     <div className="board row">
-      {_.map(_.range(1, 8), (n, i) => (
-        <Column key={i} x={n} className="col-1" />
+      {_.map(_.range(7), n => (
+        <Column key={n} x={n} colName={`col${n + 1}`} updateColumn={updateColumn} className="col-1" />
       ))}
     </div>
   );
