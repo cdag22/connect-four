@@ -1,5 +1,6 @@
 import React from 'react';
 import GameBoard from './GameBoard.jsx';
+import GameLogic from './GameLogic.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -7,27 +8,28 @@ class App extends React.Component {
 
     this.state = {
       isRedsMove: true,
-      col1: [],
-      col2: [],
-      col3: [],
-      col4: [],
-      col5: [],
-      col6: [],
-      col7: []
+      columns: {
+        0: [],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: []
+      }
     }
 
     this.updateColumn = this.updateColumn.bind(this);
   }
 
-  updateColumn(column) {
+  updateColumn(column, square) {
     this.setState(state => {
-      let list = state[column];
-      let value = state.isRedsMove ? 'red' : 'blue';
+      let list = state.columns[column];
+      let value = state.isRedsMove ? 'linear-gradient(135deg, #fa749f, #fc5255)' : 'linear-gradient(135deg, #11c9e9, #0675d7)';
       list.push(value);
-      console.log('list', list);
       return {
         isRedsMove: !state.isRedsMove,
-        [column]: list
+        [column]: list,
       };
     });
   }
@@ -42,7 +44,7 @@ class App extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-8 m-auto">
-              <GameBoard updateColumn={this.updateColumn} />
+              <GameBoard columns={this.state.columns} updateColumn={this.updateColumn} />
             </div>
           </div>
         </div>
