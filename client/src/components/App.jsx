@@ -36,13 +36,16 @@ class App extends React.Component {
   updateColumn(column, square) {
     this.setState(state => {
       let list = state.columns[column];
-      let value = state.isRedsMove ? 'linear-gradient(135deg, #fa749f, #fc5255)' : 'linear-gradient(135deg, #11c9e9, #0675d7)';
+      let value = state.isRedsMove ? 1 : 0;
       list.push(value);
       let columns = this.convertColumnStateToArray(state.columns);
       let gameTest = new GameLogic(columns);
       let winner;
       if (gameTest.isHorizontalWin() || gameTest.isVerticalWin() || gameTest.isDiagonalWin()) {
         winner = state.isRedsMove ? 'Red' : 'Blue';
+        gameTest.isHorizontalWin() ? console.log('HORIZONTAL') : undefined;
+        gameTest.isVerticalWin() ? console.log('Vertical') : undefined;
+        gameTest.isDiagonalWin() ? console.log('Diagonal') : undefined;
         return {
           isRedsMove: !state.isRedsMove,
           [column]: list,
@@ -55,6 +58,11 @@ class App extends React.Component {
           [column]: list,
           isDraw: true,
           isGameOver: true
+        };
+      } else {
+        return {
+          isRedsMove: !state.isRedsMove,
+          [column]: list
         };
       }
     });
@@ -71,7 +79,7 @@ class App extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-8 m-auto">
-              <GameBoard columns={this.state.columns} updateColumn={this.updateColumn} />
+              <GameBoard columns={this.state.columns} gameOver={this.state.isGameOver} updateColumn={this.updateColumn} />
             </div>
           </div>
         </div>

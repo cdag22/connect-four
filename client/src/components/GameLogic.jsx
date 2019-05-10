@@ -1,6 +1,6 @@
 class GameLogic {
   constructor(columns) {
-    this.rows = this.convertColumnsToRows(columns);
+    this.rows = convertColumnsToRows(columns)
     this.columns = columns;
   }
 
@@ -8,8 +8,7 @@ class GameLogic {
     let rows = [];
     for (let i = 0; i < columns.length; i++) {
       let row = [];
-      let col = columns[i]
-      for (let k = 0; k < col.length; k++) {
+      for (let k = 0; k < columns[i].length; k++) {
         row.push(columns[k][i]);
       }
       rows.push(row);
@@ -18,7 +17,7 @@ class GameLogic {
   }
 
   isVerticalOrHorizontalWin(arr) {
-    let array = arr
+    let array = arr;
     for (let i = 0; i < array.length; i++) {
       let subArray = array[i];
       let current = subArray[0];
@@ -39,10 +38,12 @@ class GameLogic {
   }
 
   isHorizontalWin() {
+    console.log('rows', this.rows);
     return this.isVerticalOrHorizontalWin(this.rows);
   }
 
   isVerticalWin() {
+    console.log('cols', this.columns);
     return this.isVerticalOrHorizontalWin(this.columns);
   }
 
@@ -53,28 +54,28 @@ class GameLogic {
     let current;
     for (let r = 0; r < columns.length - dimension; r++) {
       for (let c = 0; c < columns.length - dimension; c++) {
-        isDiagonalWin = true;
-        current = columns[r + c][r - 1]
-        for (let k = dimension - 2; k > -1; k--) {
-          if (current !== columns[r + c][r - dimension + k]) {
-            isDiagonalWin = false;
-            break;
-          }
-        }
-        if (isDiagonalWin) {
-          return true;
-        }
-        isDiagonalWin = true;
-        current = columns[r][c];
-        for (let k = 1; k < dimension; k++) {
-          if (current !== columns[r + k][c + k]) {
-            isDiagonalWin = false;
-            break;
-          }
-        }
-        if (isDiagonalWin) {
-          return true;
-        }
+        // isDiagonalWin = true;
+        // current = columns[r + c][r - 1]
+        // for (let k = dimension - 2; k > -1; k--) {
+        //   if (current !== columns[r + c][r - dimension + k]) {
+        //     isDiagonalWin = false;
+        //     break;
+        //   }
+        // }
+        // if (isDiagonalWin) {
+        //   return true;
+        // }
+        // isDiagonalWin = true;
+        // current = columns[r][c];
+        // for (let k = 1; k < dimension; k++) {
+        //   if (current !== columns[r + k][c + k]) {
+        //     isDiagonalWin = false;
+        //     break;
+        //   }
+        // }
+        // if (isDiagonalWin) {
+        //   return true;
+        // }
       }
     }
     return false;
