@@ -2,7 +2,6 @@ class GameLogic {
   constructor(columns) {
     this.rows = this.convertColumnsToRows(columns);
     this.columns = columns;
-    this.dimension = 4;
   }
 
   convertColumnsToRows(columns) {
@@ -11,7 +10,7 @@ class GameLogic {
       let row = [];
       let col = columns[i]
       for (let k = 0; k < col.length; k++) {
-        row.push(column[k][i]);
+        row.push(columns[k][i]);
       }
       rows.push(row);
     }
@@ -32,32 +31,57 @@ class GameLogic {
           sameInARow = 1;
         }
         if (sameInARow === 4) {
-          return current;
+          return true;
         }
       }
     }
-    return null;
+    return false;
+  }
+
+  isHorizontalWin() {
+    return this.isVerticalOrHorizontalWin(this.rows);
+  }
+
+  isVerticalWin() {
+    return this.isVerticalOrHorizontalWin(this.columns);
   }
 
   isDiagonalWin() {
-    // let columns = this.columns;
-    // dimension = 4;
-    // for (let i = 0; i < columns.length - dimension; i++) {
-    //   for (let k = 0; k < columns.length - dimension; k++) {
-    //     let leftDiagonal = [];
-    //     for (let m = dimension - 1; m > -1; m--) {
-
-    //     }
-    //   }
-    // }
+    let columns = this.columns;
+    let dimension = 4;
+    let isDiagonalWin;
+    let current;
+    for (let r = 0; r < columns.length - dimension; r++) {
+      for (let c = 0; c < columns.length - dimension; c++) {
+        isDiagonalWin = true;
+        current = columns[r + c][r - 1]
+        for (let k = dimension - 2; k > -1; k--) {
+          if (current !== columns[r + c][r - dimension + k]) {
+            isDiagonalWin = false;
+            break;
+          }
+        }
+        if (isDiagonalWin) {
+          return true;
+        }
+        isDiagonalWin = true;
+        current = columns[r][c];
+        for (let k = 1; k < dimension; k++) {
+          if (current !== columns[r + k][c + k]) {
+            isDiagonalWin = false;
+            break;
+          }
+        }
+        if (isDiagonalWin) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
-
-  render() {
-    return (
-      <div className="game-result">
-      </div>
-    )
+  isDraw() {
+    return this.columns.every(col => col.every(value => !!value));
   }
 }
 
