@@ -83,9 +83,23 @@ body{
 }
 
 /*--------------------------------------------------------------------------- 
-* GAME LOGIC
+* Win Banner
 */
 
-.game-result {
-  
+.win-banner {
+  position: absolute;
+  margin: auto;
+  left: 10%;
+  top: 10%;
+  background: linear-gradient(135deg, #fe9d0a, #fd7310);
+  border-radius: 0.5rem;
+  color: #202428;
+  font-weight: 300;
+  width: 38rem;
+  height: 8rem;
+  /* opacity: 0.9; */
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

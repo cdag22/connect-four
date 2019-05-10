@@ -1,35 +1,24 @@
+import _ from 'underscore';
+
 class GameLogic {
   constructor(columns) {
-    this.rows = convertColumnsToRows(columns)
     this.columns = columns;
   }
 
-  convertColumnsToRows(columns) {
-    let rows = [];
-    for (let i = 0; i < columns.length; i++) {
-      let row = [];
-      for (let k = 0; k < columns[i].length; k++) {
-        row.push(columns[k][i]);
-      }
-      rows.push(row);
-    }
-    return rows;
-  }
-
-  isVerticalOrHorizontalWin(arr) {
-    let array = arr;
+  isVerticalWin() {
+    let array = this.columns;
     for (let i = 0; i < array.length; i++) {
       let subArray = array[i];
       let current = subArray[0];
-      let sameInARow = 1;
+      let sameInACol = 1;
       for (let k = 1; k < subArray.length; k++) {
         if (current === subArray[k]) {
-          sameInARow++;
+          sameInACol++;
         } else {
           current = subArray[k];
-          sameInARow = 1;
+          sameInACol = 1;
         }
-        if (sameInARow === 4) {
+        if (sameInACol === 4) {
           return true;
         }
       }
@@ -38,51 +27,52 @@ class GameLogic {
   }
 
   isHorizontalWin() {
-    console.log('rows', this.rows);
-    return this.isVerticalOrHorizontalWin(this.rows);
+    let cols = this.columns;
+    for (let i = 0; i < cols[0].length; i++) {
+      let current = cols[0][i];
+      let sameInARow = 1;
+      for (let k = 1; k < cols.length; k++) {
+        if (cols[k][i] !== undefined) {
+          if (current === cols[k][i]) {
+            sameInARow++;
+          } else {
+            current = cols[k][i];
+            sameInARow = 1;
+          }
+          if (sameInARow === 4) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
-  isVerticalWin() {
-    console.log('cols', this.columns);
-    return this.isVerticalOrHorizontalWin(this.columns);
-  }
 
   isDiagonalWin() {
     let columns = this.columns;
     let dimension = 4;
-    let isDiagonalWin;
-    let current;
     for (let r = 0; r < columns.length - dimension; r++) {
       for (let c = 0; c < columns.length - dimension; c++) {
-        // isDiagonalWin = true;
-        // current = columns[r + c][r - 1]
-        // for (let k = dimension - 2; k > -1; k--) {
-        //   if (current !== columns[r + c][r - dimension + k]) {
-        //     isDiagonalWin = false;
-        //     break;
-        //   }
-        // }
-        // if (isDiagonalWin) {
-        //   return true;
-        // }
-        // isDiagonalWin = true;
-        // current = columns[r][c];
-        // for (let k = 1; k < dimension; k++) {
-        //   if (current !== columns[r + k][c + k]) {
-        //     isDiagonalWin = false;
-        //     break;
-        //   }
-        // }
-        // if (isDiagonalWin) {
-        //   return true;
-        // }
+        let left = _.filter(_.map(_.range(dimension - 1, -1, -1), k => columns[r + k][c + dimension - k]), x => x === 'Red' || x === 'Blue');
+        let right = _.filter(_.map(_.range(dimension), k => columns[r + k][c + k]), x => x === 'Red' || x === 'Blue');
+        if (left.length !== 0) {
+          if (left.length === 4 && _.uniq(left).length === 1) {
+            return true;
+          }
+        }
+        if (right.length !== 0) {
+          if (right.length === 4 && _.uniq(right).length === 1) {
+            return true;
+          }
+        }
       }
     }
     return false;
   }
 
   isDraw() {
-    return this.columns.every(col => col.every(value => !!value));
+    return this.columns.every(col => col.every(value => !value));
   }
 }
 

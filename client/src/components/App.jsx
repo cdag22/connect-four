@@ -1,5 +1,6 @@
 import React from 'react';
 import GameBoard from './GameBoard.jsx';
+import DisplayWinner from './DisplayWinner.jsx';
 import GameLogic from './GameLogic.jsx';
 
 class App extends React.Component {
@@ -36,16 +37,13 @@ class App extends React.Component {
   updateColumn(column, square) {
     this.setState(state => {
       let list = state.columns[column];
-      let value = state.isRedsMove ? 1 : 0;
+      let value = state.isRedsMove ? 'Red' : 'Blue';
       list.push(value);
       let columns = this.convertColumnStateToArray(state.columns);
       let gameTest = new GameLogic(columns);
       let winner;
       if (gameTest.isHorizontalWin() || gameTest.isVerticalWin() || gameTest.isDiagonalWin()) {
         winner = state.isRedsMove ? 'Red' : 'Blue';
-        gameTest.isHorizontalWin() ? console.log('HORIZONTAL') : undefined;
-        gameTest.isVerticalWin() ? console.log('Vertical') : undefined;
-        gameTest.isDiagonalWin() ? console.log('Diagonal') : undefined;
         return {
           isRedsMove: !state.isRedsMove,
           [column]: list,
@@ -66,7 +64,6 @@ class App extends React.Component {
         };
       }
     });
-
   }
 
   render() {
@@ -80,6 +77,7 @@ class App extends React.Component {
           <div className="row">
             <div className="col-8 m-auto">
               <GameBoard columns={this.state.columns} gameOver={this.state.isGameOver} updateColumn={this.updateColumn} />
+              <DisplayWinner winner={this.state.winner} draw={this.state.isDraw} gameOver={this.state.isGameOver} />
             </div>
           </div>
         </div>
